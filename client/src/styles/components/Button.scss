@@ -1,0 +1,27 @@
+.btn{
+    background: #7200ff;
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    transition: all 0.3s ease-in-out;
+
+    &:hover{
+        background-color: #540cac;
+    }
+
+
+    >span{
+        margin-right: 10px;
+    }
+}
