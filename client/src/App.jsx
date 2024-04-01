@@ -1,10 +1,12 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
+import { BrowserRouter, Navigate, Route, Routes, } from 'react-router-dom';
 import Navbar from './components/Navbar.jsx';
 import Home from './pages/Home.jsx';
 
+import Authentication from './pages/Authentication.jsx';
 import './styles/app.scss';
-import Signup from './pages/Signup.jsx';
+
+const  isAuthenticated  = false;
+
 
 function App() {
 
@@ -12,11 +14,25 @@ function App() {
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route path='/' exact element={<Home />} />
-        <Route path='/register' element={<Signup />} />
+        <Route path='/' exact element={<GuestRoute element={<Home />} />} />
+        <Route path="/authenticate" element={<GuestRoute element={<Authentication />}></GuestRoute>} />
       </Routes>
     </BrowserRouter>
   )
+}
+
+
+const GuestRoute = ({element}) => {
+  return (
+      isAuthenticated ? (
+              <Navigate
+                  to="/rooms"
+                  replace
+              />
+          ) : (
+              element
+          )
+  );
 }
 
 export default App
