@@ -11,7 +11,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   function usernameHandler(){
-    navigate('/register');
+    navigate('/authenticate');
   }
   
 
@@ -27,12 +27,11 @@ const Home = () => {
         </p>
 
         <div>
-          <Button onClick={usernameHandler} title={"Get your username"} />
+          <Button onClick={usernameHandler} title={"Get Started"} />
         </div>
 
         <div className='signinWrapper'>
           <span>Have an invite text?</span>
-          <Link to={'/login'}>Sign in</Link>
         </div>
 
     </Card>

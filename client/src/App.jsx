@@ -8,9 +8,9 @@ import Rooms from './pages/Rooms.jsx';
 
 import './styles/app.scss';
 
-const  isAuthenticated  = true;
+const  isAuthenticated  = false;
 const user = {
-  activated: true,
+  activated: false,
 }
 
 

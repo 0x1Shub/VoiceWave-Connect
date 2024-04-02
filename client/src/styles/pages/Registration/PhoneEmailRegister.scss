@@ -1,0 +1,38 @@
+.cardWrapper{
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+    
+    .btnWrap{
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+
+        >button {
+            height: 50px;
+            width: 50px;
+            background: #262626;
+            border: none;
+            outline: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .email-white{
+            margin-left: 10px;
+        }
+
+        .active{
+            background: #0077ff;
+            height: 45px;
+            width: 45px;
+        }
+
+    }
+}
+
+
