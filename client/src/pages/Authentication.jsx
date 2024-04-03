@@ -20,7 +20,7 @@ function Authentication() {
 
     return (
         <div>
-            <Step onClick={registerhandler} />
+            <Step onNext={registerhandler} />
         </div>
     )
 }

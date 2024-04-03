@@ -12,14 +12,14 @@ const phoneEmailMap = {
   email: Email,
 }
 
-function PhoneEmailRegister({onClick}) {
+function PhoneEmailRegister({onNext}) {
   const [type, setType] = useState('phone');
 
   const Component = phoneEmailMap[type]
 
-  function registerhandler(){
-      setType(type+1);
-  }
+  // function registerhandler(){
+  //     setType(type+1);
+  // }
 
   return (
       <>
@@ -35,7 +35,7 @@ function PhoneEmailRegister({onClick}) {
               </button>
             </div>
 
-            <Component onClick={registerhandler} />
+            <Component onNext={onNext} />
           </div>
         </div>
 

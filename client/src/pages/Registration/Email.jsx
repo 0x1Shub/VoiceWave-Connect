@@ -5,7 +5,7 @@ import Button from '../../components/Button';
 import EmailIcon from '../../assets/Mail.png'
 import TextInput from '../../components/TextInput.jsx'
 
-function Email() {
+function Email({onNext}) {
 
   const [email, setEmail] = useState('');
 
@@ -15,12 +15,12 @@ function Email() {
         <TextInput value={email} onChange={(e) => setEmail(e.target.value)} />
 
         <div>
-          <Button title={"Next"} />
+          <Button title={"Next"} onClick={onNext} />
 
           <p className='text'>
             By entering your number, you're agreeing to our Terms of 
             Service and Privacy Policy. Thanks!
-        </p>
+          </p>
         </div>
     </Card>
   )

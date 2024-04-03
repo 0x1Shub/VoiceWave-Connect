@@ -7,7 +7,7 @@ import '../../styles/pages/Registration/Phone.scss';
 import PhoneIcon from '../../assets/Phone.png'
 import TextInput from '../../components/TextInput.jsx'
 
-function Phone() {
+function Phone({onNext}) {
 
   const [phoneNumber, setPhoneNumber] = useState('');
 
@@ -16,7 +16,7 @@ function Phone() {
 
         <TextInput value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
         <div>
-          <Button title={"Next"} />
+          <Button title={"Next"} onClick={onNext} />
 
           <p className='text'>
             By entering your number, you're agreeing to our Terms of 
