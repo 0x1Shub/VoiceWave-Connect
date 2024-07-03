@@ -1,27 +1,28 @@
 .container {
-    width: 1200px;
-    max-width: 90%;
-    margin: 0 auto;
-    padding: 20px 0;
+  width: 1200px;
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
 
+  > a {
     display: flex;
     align-items: center;
+    text-decoration: none;
+    color: #fff;
 
-    > a {
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-        color: #fff;
-
-        .logo {
-            margin-right: 10px;
-            // width: 40px; 
-            // height: auto;
-        }
-
-        .title {
-            font-size: 1.4rem;
-            font-weight: bold;
-        }
+    .logo {
+      // margin-right: 10px;
+      margin-left: -50px;
+      width: 300px;
+      height: auto;
+      margin-bottom: -30px;
     }
+
+    // .title {
+    //     font-size: 1.4rem;
+    //     font-weight: bold;
+    // }
+  }
 }

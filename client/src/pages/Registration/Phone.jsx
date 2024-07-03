@@ -13,21 +13,29 @@ function Phone({onNext}) {
 
   const [phoneNumber, setPhoneNumber] = useState('');
 
-  // async function submit(){
-
-  //   // server request
-  //   const res = await sendOtp({phone: phoneNumber});
-  //   console.log(res);
-  // }
-
-  const submit = async () => {
-    try{
-      const response = await sendOtp({phone: phoneNumber});
-      console.log(response.data);
-    }catch(err){
-      console.error('Error sending OTP: ', err);
+  async function submit() {
+    try {
+      const res = await sendOtp({ phone: phoneNumber });
+      console.log(res);
+      // Handle response
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        console.error('Error: Endpoint not found');
+      } else {
+        console.error('Error sending OTP:', error.message);
+      }
     }
   }
+  
+
+  // const submit = async () => {
+  //   try{
+  //     const response = await sendOtp({phone: phoneNumber});
+  //     console.log(response.data);
+  //   }catch(err){
+  //     console.error('Error sending OTP: ', err);
+  //   }
+  // }
 
   return (
     <Card title={"Enter your phone number"} icon={PhoneIcon}>

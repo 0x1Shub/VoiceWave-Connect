@@ -1,35 +1,34 @@
-.home{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 2rem;
-
+.home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
 }
 
-.text{
-    font-size: 20px;
-    line-height: 1.6;
-    color: #C4C5C5;
-    text-align: center;
+.custom-card .text {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #c4c5c5;
+  text-align: center;
 }
 
-.signinWrapper{
-    margin-top: 20px;
+.signinWrapper {
+  margin-top: 20px;
 
-    >span{
-        color: #7200ff;
-        margin-right: 10px;
+  > span {
+    color: #0077ff;
+    margin-right: 10px;
+  }
+
+  > a {
+    color: #0077ff;
+    text-decoration: none;
+    transition: color 0.3s;
+    font-weight: bold;
+
+    &:hover {
+      color: #014a9c;
+      text-decoration: underline;
     }
-
-    >a {
-        color: #7200ff; 
-        text-decoration: none; 
-        transition: color 0.3s; 
-        font-weight: bold;
-      
-        &:hover {
-          color: #540cac; 
-          text-decoration: underline;
-        }
-      }
+  }
 }
