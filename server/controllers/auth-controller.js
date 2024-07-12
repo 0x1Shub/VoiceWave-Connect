@@ -4,10 +4,12 @@ const userService = require("../services/user-service");
 const tokenService = require("../services/token-service");
 
 class AuthController {
+  // Generate OTP
+
   async sendOtp(req, res) {
     const { phone } = req.body;
     if (!phone) {
-      res.status(400).json({
+      return res.status(400).json({
         msg: "Phone field is require!",
       });
     }
@@ -19,6 +21,8 @@ class AuthController {
     const data = `${phone}.${otp}.${expires}`;
     const hash = hashService.hashOtp(data);
 
+    // Send OTP
+
     try {
       // await otpService.sendBySms(phone, otp);
       return res.json({
@@ -28,23 +32,25 @@ class AuthController {
       });
     } catch (err) {
       console.log(err);
-      res.status(500).json({
+      return res.status(500).json({
         msg: "Message sending failed!",
       });
     }
   }
 
+  // Verify OTP
+
   async verifyOtp(req, res) {
     const { otp, hash, phone } = req.body;
     if (!otp || !hash || !phone) {
-      res.status(400).json({
+      return res.status(400).json({
         msg: "All fields are required!",
       });
     }
 
     const [hashedOtp, expires] = hash.split(".");
     if (Date.now() > +expires) {
-      res.status(400).json({
+      return res.status(400).json({
         msg: "OTP expired!",
       });
     }
@@ -52,7 +58,7 @@ class AuthController {
     const data = `${phone}.${otp}.${expires}`;
     const isValid = otpService.verifyOtp(hashedOtp, data);
     if (!isValid) {
-      res.status(400).json({
+      return res.status(400).json({
         msg: "Invalid OTP",
       });
     }
@@ -65,8 +71,10 @@ class AuthController {
       }
     } catch (err) {
       console.log(err);
-      res.status(500).json({ msg: "Db error" });
+      return res.status(500).json({ msg: "Db error" });
     }
+
+    // Generate Token JWT
 
     const { accessToken, refreshToken } = tokenService.generateTokens({
       _id: user._id,

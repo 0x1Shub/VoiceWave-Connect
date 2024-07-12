@@ -1,67 +1,60 @@
-import { BrowserRouter, Navigate, Route, Routes, } from 'react-router-dom';
-import Navbar from './components/Navbar.jsx';
-import Home from './pages/Home.jsx';
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
-import Authentication from './pages/Authentication.jsx';
-import Activate from './pages/Activate.jsx';
-import Rooms from './pages/Rooms.jsx';
+import Navbar from "./components/Navbar.jsx";
+import Home from "./pages/Home.jsx";
+import Authentication from "./pages/Authentication.jsx";
+import Activate from "./pages/Activate.jsx";
+import Rooms from "./pages/Rooms.jsx";
 
-import './styles/app.scss';
+import "./styles/app.scss";
 
-const  isAuthenticated  = false;
+const isAuthenticated = false;
 const user = {
   activated: false,
-}
-
+};
 
 function App() {
-
   return (
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route path='/' exact element={<GuestRoute element={<Home />} />} />
-        <Route path="/authenticate" element={<GuestRoute element={<Authentication />}></GuestRoute>} />
-        <Route path='/activate' element={<SemiProtectedRoute element={<Activate />} />} />
-        <Route path='/rooms' element={<ProtectedRoute element={<Rooms />} />} />
+        <Route path="/" exact element={<GuestRoute element={<Home />} />} />
+        <Route
+          path="/authenticate"
+          element={<GuestRoute element={<Authentication />}></GuestRoute>}
+        />
+        <Route
+          path="/activate"
+          element={<SemiProtectedRoute element={<Activate />} />}
+        />
+        <Route path="/rooms" element={<ProtectedRoute element={<Rooms />} />} />
       </Routes>
     </BrowserRouter>
-  )
-}
-
-
-const GuestRoute = ({element}) => {
-  return (
-      isAuthenticated ? (
-              <Navigate
-                  to="/rooms"
-                  replace
-              />
-          ) : (
-              element
-          )
   );
 }
 
+const GuestRoute = ({ element }) => {
+  return isAuthenticated ? <Navigate to="/rooms" replace /> : element;
+};
 
 const SemiProtectedRoute = ({ element }) => {
   return !isAuthenticated ? (
-      <Navigate to="/" replace />
+    <Navigate to="/" replace />
   ) : isAuthenticated && !user.activated ? (
-      element
+    element
   ) : (
-      <Navigate to="/rooms" replace />
+    <Navigate to="/rooms" replace />
   );
 };
 
-const ProtectedRoute = ({element}) => {
+const ProtectedRoute = ({ element }) => {
   return !isAuthenticated ? (
-    <Navigate to={'/'} replace />
+    <Navigate to={"/"} replace />
   ) : isAuthenticated && !user.activated ? (
-    <Navigate to={'/activate'} replace />
+    <Navigate to={"/activate"} replace />
   ) : (
     element
-  )
-}
+  );
+};
 
-export default App
+export default App;

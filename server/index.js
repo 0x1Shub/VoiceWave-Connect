@@ -11,12 +11,14 @@ const corsOption = {
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE"],
 };
+
 app.use(cors(corsOption));
+app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
 DbConnect();
-app.use(express.json());
+
 app.use(router);
 
 app.get("/", (req, res) => {

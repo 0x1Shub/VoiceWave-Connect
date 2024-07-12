@@ -1,12 +1,12 @@
-import React from 'react';
-import '../styles/components/TextInput.scss';
+import React from "react";
+import "../styles/components/TextInput.scss";
 
-function TextInput({props}) {
+function TextInput({ value, onChange }) {
   return (
     <div>
-      <input className='input' type="text" {...props} />
+      <input className="input" type="text" value={value} onChange={onChange} />
     </div>
-  )
+  );
 }
 
-export default TextInput
+export default TextInput;
