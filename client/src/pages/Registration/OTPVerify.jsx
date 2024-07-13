@@ -1,18 +1,25 @@
 import React, { useState } from "react";
-
 import TextInput from "../../components/TextInput";
 import Button from "../../components/Button";
 import Card from "../../components/Card";
-
 import lockLogo from "../../assets/lock.png";
+import { verifyOtp } from "../../http";
+import { useSelector } from "react-redux";
 
 import "../../styles/pages/Registration/OTPVerify.scss";
 
-const OTPVerify = ({ onClick }) => {
+const OTPVerify = ({ onNext }) => {
   const [otp, setOtp] = useState("");
+  const { phone, hash } = useSelector((state) => state.auth.otp);
 
-  function next() {
-    console.log("Hii shubham");
+  async function submit() {
+    try {
+      const { data } = await verifyOtp({ otp, phone, hash });
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+    // onNext();
   }
 
   return (
@@ -22,7 +29,7 @@ const OTPVerify = ({ onClick }) => {
           <TextInput value={otp} onChange={(e) => setOtp(e.target.value)} />
 
           <div className="actionButtonWrap">
-            <Button onClick={next} title="Next" />
+            <Button onClick={submit} title="Next" />
           </div>
 
           <p className="text">

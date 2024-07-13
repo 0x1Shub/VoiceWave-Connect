@@ -4,11 +4,14 @@ import Button from "../../components/Button.jsx";
 import TextInput from "../../components/TextInput.jsx";
 import PhoneIcon from "../../assets/Phone.png";
 import { sendOtp } from "../../http/index.js";
+import { useDispatch } from "react-redux";
+import { setOtp } from "../../store/authSlice.js";
 
 import "../../styles/pages/Registration/Phone.scss";
 
 function Phone({ onNext }) {
   const [phoneNumber, setPhoneNumber] = useState("");
+  const dispatch = useDispatch();
 
   async function submit() {
     if (!phoneNumber) {
@@ -17,9 +20,10 @@ function Phone({ onNext }) {
     }
 
     try {
-      const res = await sendOtp({ phone: phoneNumber });
-      console.log("Response:", res);
-      // onNext(); // Uncomment this if you want to proceed to the next step after successful OTP send
+      const { data } = await sendOtp({ phone: phoneNumber });
+      console.log("Response:", data);
+      dispatch(setOtp({ phone: data.phone, hash: data.hash }));
+      onNext(); // Uncomment this if you want to proceed to the next step after successful OTP send
     } catch (error) {
       if (error.response && error.response.status === 400) {
         console.error("Error: Bad Request", error.response.data);
