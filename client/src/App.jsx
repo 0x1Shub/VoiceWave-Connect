@@ -1,17 +1,12 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-
 import Navbar from "./components/Navbar.jsx";
 import Home from "./pages/Home.jsx";
 import Authentication from "./pages/Authentication.jsx";
 import Activate from "./pages/Activate.jsx";
 import Rooms from "./pages/Rooms.jsx";
+import { useSelector } from "react-redux";
 
 import "./styles/app.scss";
-
-const isAuthenticated = false;
-const user = {
-  activated: false,
-};
 
 function App() {
   return (
@@ -34,10 +29,13 @@ function App() {
 }
 
 const GuestRoute = ({ element }) => {
+  const { isAuthenticated } = useSelector((state) => state.auth);
+
   return isAuthenticated ? <Navigate to="/rooms" replace /> : element;
 };
 
 const SemiProtectedRoute = ({ element }) => {
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
   return !isAuthenticated ? (
     <Navigate to="/" replace />
   ) : isAuthenticated && !user.activated ? (
@@ -48,6 +46,7 @@ const SemiProtectedRoute = ({ element }) => {
 };
 
 const ProtectedRoute = ({ element }) => {
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
   return !isAuthenticated ? (
     <Navigate to={"/"} replace />
   ) : isAuthenticated && !user.activated ? (
