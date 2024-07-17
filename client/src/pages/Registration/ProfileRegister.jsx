@@ -5,12 +5,14 @@ import profileIcon from "../../assets/monkey-emoji.png";
 import profileImg from "../../assets/monkey-avatar.png";
 import { useSelector, useDispatch } from "react-redux";
 import { setProfile } from "../../store/activateSlice";
+import { activate } from "../../http";
+import { setAuth } from "../../store/authSlice";
 
 import "../../styles/pages/Registration/ProfileRegister.scss";
 
 function ProfileRegister({ onNext }) {
   const dispatch = useDispatch();
-  const { name } = useSelector((state) => state.activate);
+  const { name, profile } = useSelector((state) => state.activate);
   const [image, setImage] = useState(profileImg);
 
   function captureImg(e) {
@@ -18,13 +20,21 @@ function ProfileRegister({ onNext }) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = function () {
-      console.log(reader.result);
       setImage(reader.result);
       dispatch(setProfile(reader.result));
     };
   }
 
-  function submit() {}
+  async function submit() {
+    try {
+      const { data } = await activate({ name, profile });
+      if (data.auth) {
+        dispatch(setAuth(data));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <>
