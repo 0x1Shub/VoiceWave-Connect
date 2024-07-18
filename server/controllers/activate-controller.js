@@ -14,7 +14,7 @@ class ActivateController {
     // Image Base64
 
     const buffer = Buffer.from(
-      profile.replace(/^data:image\/png;base64,/, ""),
+      profile.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""),
       "base64"
     );
 
