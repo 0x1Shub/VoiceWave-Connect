@@ -5,11 +5,16 @@ import Authentication from "./pages/Authentication.jsx";
 import Activate from "./pages/Activate.jsx";
 import Rooms from "./pages/Rooms.jsx";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 
 import "./styles/app.scss";
 
 function App() {
-  return (
+  const [loading, setLoading] = useState(false);
+
+  return loading ? (
+    "Loading..."
+  ) : (
     <BrowserRouter>
       <Navbar />
       <Routes>
