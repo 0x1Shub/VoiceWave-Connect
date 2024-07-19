@@ -1,17 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-import "../styles/components/Navbar.scss";
 import logo from "../assets/Voice_Wave_Logo2.png";
-// import logo from "../assets/logo3.png";
+import { logout } from "../http";
+import { useDispatch, useSelector } from "react-redux";
+import { setAuth } from "../store/authSlice";
+import "../styles/components/Navbar.scss";
 
 function Navbar() {
+  const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector((state) => state.auth);
+
+  async function logoutUser() {
+    try {
+      const { data } = await logout();
+      dispatch(setAuth(data));
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <div className="container">
       <Link to={"/"}>
         <img src={logo} alt="Logo" className="logo" />
         {/* <span className='title'>Voice-Wave</span> */}
       </Link>
+      {isAuthenticated && <button onClick={logoutUser}>Logout</button>}
     </div>
   );
 }
