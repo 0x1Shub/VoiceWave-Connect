@@ -5,12 +5,12 @@ import Authentication from "./pages/Authentication.jsx";
 import Activate from "./pages/Activate.jsx";
 import Rooms from "./pages/Rooms.jsx";
 import { useSelector } from "react-redux";
-import { useState } from "react";
 
 import "./styles/app.scss";
+import { useLoadingWithRefresh } from "./hooks/useLoadingWithRefresh.js";
 
 function App() {
-  const [loading, setLoading] = useState(false);
+  const { loading } = useLoadingWithRefresh();
 
   return loading ? (
     "Loading..."
