@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setProfile } from "../../store/activateSlice";
 import { activate } from "../../http";
 import { setAuth } from "../../store/authSlice";
+import Loader from "../../components/Loader";
 
 import "../../styles/pages/Registration/ProfileRegister.scss";
 
@@ -14,6 +15,7 @@ function ProfileRegister({ onNext }) {
   const dispatch = useDispatch();
   const { name, profile } = useSelector((state) => state.activate);
   const [image, setImage] = useState(profileImg);
+  const [loading, setLoading] = useState(false);
 
   function captureImg(e) {
     const file = e.target.files[0];
@@ -26,6 +28,7 @@ function ProfileRegister({ onNext }) {
   }
 
   async function submit() {
+    setLoading(true);
     try {
       const { data } = await activate({ name, profile });
       if (data.auth) {
@@ -33,7 +36,13 @@ function ProfileRegister({ onNext }) {
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false); // Always executed
     }
+  }
+
+  if (loading) {
+    return <Loader message={"Activation in progress..."} />;
   }
 
   return (

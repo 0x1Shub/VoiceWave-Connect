@@ -6,8 +6,8 @@ const Card = ({ title, icon, children, className }) => {
   return (
     <div className={`card ${className}`}>
       <div className="wrapper">
-        <img src={icon} alt="Image" />
-        <h1>{title}</h1>
+        {icon && <img src={icon} alt="Image" />}
+        {title && <h1>{title}</h1>}
       </div>
 
       {children}
