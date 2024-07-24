@@ -8,7 +8,7 @@ class ActivateController {
     // console.log("Request Body: ", req.body);
     const { name, profile } = req.body;
     if (!name || !profile) {
-      res.status(400).json({ message: "All field are require!" });
+      return res.status(400).json({ message: "All field are require!" });
     }
 
     // Image Base64
@@ -26,7 +26,7 @@ class ActivateController {
         .resize(150, Jimp.AUTO)
         .write(path.resolve(__dirname, `../storage/${imagePath}`));
     } catch (err) {
-      res.status(500).json({ message: "Server internal error" });
+      return res.status(500).json({ message: "Server internal error" });
     }
 
     const userId = req.user._id;
@@ -35,15 +35,15 @@ class ActivateController {
     try {
       const user = await userService.findUser({ _id: userId });
       if (!user) {
-        res.status(404).json({ message: "User not found!" });
+        return res.status(404).json({ message: "User not found!" });
       }
       user.activated = true;
       user.name = name;
       user.profile = `/storage/${imagePath}`;
       user.save();
-      res.json({ user: new UserDto(user), auth: true });
+      return res.json({ user: new UserDto(user), auth: true });
     } catch (err) {
-      res.status(500).json({ message: "Something went wrong" });
+      return res.status(500).json({ message: "Something went wrong" });
     }
   }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../../components/Card";
 import Button from "../../components/Button";
 import profileIcon from "../../assets/monkey-emoji.png";
@@ -16,6 +16,7 @@ function ProfileRegister({ onNext }) {
   const { name, profile } = useSelector((state) => state.activate);
   const [image, setImage] = useState(profileImg);
   const [loading, setLoading] = useState(false);
+  const [unMounted, setUnMounted] = useState(false);
 
   function captureImg(e) {
     const file = e.target.files[0];
@@ -28,11 +29,17 @@ function ProfileRegister({ onNext }) {
   }
 
   async function submit() {
+    if (!name || !profile) {
+      return;
+    }
     setLoading(true);
     try {
       const { data } = await activate({ name, profile });
       if (data.auth) {
-        dispatch(setAuth(data));
+        // dispatch(setAuth(data));
+        if (!unMounted) {
+          dispatch(setAuth(data));
+        }
       }
     } catch (err) {
       console.log(err);
@@ -40,6 +47,12 @@ function ProfileRegister({ onNext }) {
       setLoading(false); // Always executed
     }
   }
+
+  useEffect(() => {
+    return () => {
+      setUnMounted(true);
+    };
+  }, []);
 
   if (loading) {
     return <Loader message={"Activation in progress..."} />;

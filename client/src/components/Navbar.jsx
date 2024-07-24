@@ -4,11 +4,13 @@ import logo from "../assets/Voice_Wave_Logo2.png";
 import { logout } from "../http";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuth } from "../store/authSlice";
+import logoutImg from "../assets/logout.png";
+
 import "../styles/components/Navbar.scss";
 
 function Navbar() {
   const dispatch = useDispatch();
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
 
   async function logoutUser() {
     try {
@@ -25,7 +27,22 @@ function Navbar() {
         <img src={logo} alt="Logo" className="logo" />
         {/* <span className='title'>Voice-Wave</span> */}
       </Link>
-      {isAuthenticated && <button onClick={logoutUser}>Logout</button>}
+      <div className="navRight">
+        <h3>{user.name}</h3>
+        <Link to={"/"}>
+          <img
+            className="profile"
+            src={user.profile}
+            width={"40"}
+            height={"40"}
+            alt="profile"
+          />
+        </Link>
+        <button className="logoutBtn" onClick={logoutUser}>
+          <img src={logoutImg} alt="logout" />
+        </button>
+      </div>
+      {/* {isAuthenticated && <button onClick={logoutUser}>Logout</button>} */}
     </div>
   );
 }
