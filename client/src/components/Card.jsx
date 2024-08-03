@@ -23,6 +23,8 @@ Card.propTypes = {
 };
 
 Card.defaultProps = {
+  title: "",
+  icon: "",
   className: "",
 };
 
