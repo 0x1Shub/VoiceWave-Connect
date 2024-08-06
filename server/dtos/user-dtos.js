@@ -10,9 +10,7 @@ class UserDto {
     this._id = user._id;
     this.phone = user.phone;
     this.name = user.name;
-    this.profile = user.profile
-      ? `${process.env.BASE_URL}${user.profile}`
-      : null;
+    this.profile = user.profile;
     this.activated = user.activated;
     this.createdAt = user.createdAt;
   }

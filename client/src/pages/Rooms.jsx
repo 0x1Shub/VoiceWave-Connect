@@ -1,85 +1,95 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import searchIcon from "../assets/search-icon.png";
 import addRoom from "../assets/add-room-icon.png";
 import RoomCard from "../components/RoomCard";
 import AddRoomModal from "../components/AddRoomModal";
+import { getAllRooms } from "../http";
 import profileIcon from "../assets/monkey-avatar.png";
 
 import "../styles/pages/Rooms.scss";
 
-const rooms = [
-  {
-    id: 1,
-    topic: "Which framework best for frontend ?",
-    speakers: [
-      {
-        id: 1,
-        name: "John Doe",
-        profile: profileIcon,
-      },
-      {
-        id: 2,
-        name: "Jane Doe",
-        profile: profileIcon,
-      },
-    ],
-    totalPeople: 40,
-  },
-  {
-    id: 3,
-    topic: "Whats new in machine learning?",
-    speakers: [
-      {
-        id: 1,
-        name: "John Doe",
-        profile: profileIcon,
-      },
-      {
-        id: 2,
-        name: "Jane Doe",
-        profile: profileIcon,
-      },
-    ],
-    totalPeople: 40,
-  },
-  {
-    id: 4,
-    topic: "Why people use stack overflow?",
-    speakers: [
-      {
-        id: 1,
-        name: "John Doe",
-        profile: profileIcon,
-      },
-      {
-        id: 2,
-        name: "Jane Doe",
-        profile: profileIcon,
-      },
-    ],
-    totalPeople: 40,
-  },
-  {
-    id: 5,
-    topic: "Artificial inteligence is the future?",
-    speakers: [
-      {
-        id: 1,
-        name: "John Doe",
-        profile: profileIcon,
-      },
-      {
-        id: 2,
-        name: "Jane Doe",
-        profile: profileIcon,
-      },
-    ],
-    totalPeople: 40,
-  },
-];
+// const rooms = [
+//   {
+//     id: 1,
+//     topic: "Which framework best for frontend ?",
+//     speakers: [
+//       {
+//         id: 1,
+//         name: "John Doe",
+//         profile: profileIcon,
+//       },
+//       {
+//         id: 2,
+//         name: "Jane Doe",
+//         profile: profileIcon,
+//       },
+//     ],
+//     totalPeople: 40,
+//   },
+//   {
+//     id: 3,
+//     topic: "Whats new in machine learning?",
+//     speakers: [
+//       {
+//         id: 1,
+//         name: "John Doe",
+//         profile: profileIcon,
+//       },
+//       {
+//         id: 2,
+//         name: "Jane Doe",
+//         profile: profileIcon,
+//       },
+//     ],
+//     totalPeople: 40,
+//   },
+//   {
+//     id: 4,
+//     topic: "Why people use stack overflow?",
+//     speakers: [
+//       {
+//         id: 1,
+//         name: "John Doe",
+//         profile: profileIcon,
+//       },
+//       {
+//         id: 2,
+//         name: "Jane Doe",
+//         profile: profileIcon,
+//       },
+//     ],
+//     totalPeople: 40,
+//   },
+//   {
+//     id: 5,
+//     topic: "Artificial inteligence is the future?",
+//     speakers: [
+//       {
+//         id: 1,
+//         name: "John Doe",
+//         profile: profileIcon,
+//       },
+//       {
+//         id: 2,
+//         name: "Jane Doe",
+//         profile: profileIcon,
+//       },
+//     ],
+//     totalPeople: 40,
+//   },
+// ];
 
 function Rooms() {
   const [showModal, setShowModal] = useState(false);
+  const [rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    const fetchRooms = async () => {
+      const { data } = await getAllRooms();
+      setRooms(data);
+    };
+    fetchRooms();
+  }, []);
 
   function openModal() {
     setShowModal(true);

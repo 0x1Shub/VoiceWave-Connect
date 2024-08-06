@@ -13,7 +13,7 @@ function Navbar() {
   const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
-  console.log("User State: ", user);
+  // console.log("User State: ", user);
 
   async function logoutUser() {
     try {
@@ -28,7 +28,6 @@ function Navbar() {
     <div className="container">
       <Link to={"/"}>
         <img src={logo} alt="Logo" className="logo" />
-        {/* <span className='title'>Voice-Wave</span> */}
       </Link>
       <div className="navRight">
         {/* {user.name ? <h3>{user.name}</h3> : <h3>{"user"}</h3>}
@@ -41,17 +40,17 @@ function Navbar() {
             alt="profile"
           />
         </Link>
-        <button className="logoutBtn" onClick={logoutUser}>
+        <button className="logoutBtn" onClick ={logoutUser}>
           <img src={logoutImg} alt="logout" />
         </button> */}
 
-        {user ? (
+        {isAuthenticated && (
           <>
-            {user.name ? <h3>{user.name}</h3> : <h3>{user.phone}</h3>}
+            <h3>{user?.name}</h3>
             <Link to={"/"}>
               <img
                 className="profile"
-                src={user.profile || defaultProfileImageUrl}
+                src={user.profile ? user.profile : defaultProfileImageUrl}
                 width={"40"}
                 height={"40"}
                 alt="profile"
@@ -61,8 +60,6 @@ function Navbar() {
               <img src={logoutImg} alt="logout" />
             </button>
           </>
-        ) : (
-          <h3>Loading...</h3> // You can replace this with a better placeholder
         )}
       </div>
       {/* {isAuthenticated && <button onClick={logoutUser}>Logout</button>} */}
