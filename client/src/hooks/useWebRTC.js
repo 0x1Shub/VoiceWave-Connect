@@ -45,6 +45,12 @@ export const useWebRTC = (roomId, user) => {
         socket.current.emit(ACTIONS.JOIN, { roomId, user });
       });
     });
+
+    return () => {
+      // Leaving the room
+      localMediaStream.current.getTracks().forEach((track) => track.stop());
+      socket.current.emit(ACTIONS.LEAVE, { roomId });
+    };
   }, []);
 
   useEffect(() => {
@@ -109,6 +115,62 @@ export const useWebRTC = (roomId, user) => {
 
     return () => {
       socket.current.off(ACTIONS.ADD_PEER);
+    };
+  }, []);
+
+  // Handle Ice Candidate
+
+  useEffect(() => {
+    socket.current.on(ACTIONS.ICE_CANDIDATE, ({ peerId, icecandidate }) => {
+      if (icecandidate) {
+        connections.current[peerId].addIceCandidate(icecandidate);
+      }
+    });
+    return () => {
+      socket.current.off(ACTIONS.ICE_CANDIDATE);
+    };
+  }, []);
+
+  // Handle SDP
+  useEffect(() => {
+    const handleRemoteSdp = async ({
+      peerId,
+      sessionDescription: remoteSessionDescription,
+    }) => {
+      connections.current[peerId].setRemoteDescription(
+        new RTCSessionDescription(remoteSessionDescription)
+      );
+      // if session description is type of offer then create an answer
+      if (remoteSessionDescription.type === "offer") {
+        const connection = connections.current[peerId];
+        const answer = await connection.createAnswer();
+
+        connection.setLocalDescription(answer);
+        socket.current.emit(ACTIONS.RELAY_SDP, {
+          peerId,
+          sessionDescription: answer,
+        });
+      }
+    };
+    socket.current.on(ACTIONS.SESSION_DESCRIPTION, handleRemoteSdp);
+    return () => {
+      socket.current.off(ACTIONS.SESSION_DESCRIPTION);
+    };
+  }, []);
+
+  // Handle remove peer
+  useEffect(() => {
+    const handleRemovePeer = async ({ peerId, userId }) => {
+      if (connections.current[peerId]) {
+        connections.current[peerId].close();
+      }
+      delete connections.current[peerId];
+      delete audioElements.current[peerId];
+      setClients((list) => list.filter((client) => client.id != userId));
+    };
+    socket.current.on(ACTIONS.REMOVE_PEER, handleRemovePeer);
+    return () => {
+      socket.current.off(ACTIONS.REMOVE_PEER);
     };
   }, []);
 
